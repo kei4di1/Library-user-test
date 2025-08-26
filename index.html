@@ -133,50 +133,12 @@
             border-left: 5px solid var(--gray-600);
             max-width: 600px;
             width: 100%;
+            /* Hide text content except image */
         }
-        .role-name {
-            font-size: 2rem;
-            margin-bottom: 1rem;
-            text-align: center;
-            font-weight: 700;
-            color: var(--gray-700);
-            text-shadow: none;
-        }
-        .role-description {
-            margin-bottom: 1.5rem;
-            text-align: center;
-            font-size: 1.125rem;
-            line-height: 1.7;
-            color: var(--gray-600);
-        }
-        .restart-btn {
-            background: var(--gray-600);
-            color: white;
-            border: none;
-            padding: 0.75rem 2rem;
-            font-size: 1rem;
-            border-radius: 8px;
-            cursor: pointer;
-            margin-top: 1.5rem;
-            transition: background 0.3s, transform 0.3s, box-shadow 0.3s;
-            font-weight: 600;
-            box-shadow: 0 2px 8px rgba(128, 128, 128, 0.15);
-            width: 100%;
-            max-width: 300px;
-            display: block;
-            margin-left: auto;
-            margin-right: auto;
-        }
-        .restart-btn:hover {
-            background: var(--gray-800);
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(128, 128, 128, 0.18);
-        }
+        .role-name,
+        .role-description,
         .role-icon {
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
-            text-align: center;
-            color: var(--gray-600);
+            display: none !important;
         }
         .role-image {
             width: 100%;
@@ -240,9 +202,9 @@
 <body>
 <div class="container">
 
-<h1><i class="fas fa-book-reader"></i> 你是甚麼圖書館角色？</h1>
+<h1 id="quizTitle"><i class="fas fa-book-reader"></i> 你是甚麼圖書館角色？</h1>
 
-<div class="progress">
+<div class="progress" id="progressBarContainer">
     <div class="progress-bar">
         <div class="progress-fill" id="progressFill"></div>
     </div>
@@ -329,7 +291,7 @@
 // 角色資訊
 const roles = {
     '靈感工程師': {
-        description: '你是圖書館創客空間的常客，喜歡動手做事和探索新技術。圖書館的創作工具和製作空間是你的最愛，你總是能找到靈感來創造獨一無二的作品。',
+        description: '你是圖書館創客空間的常客，喜歡動手做事和探索新技術。圖書館的創作工具和製作空間是你的最愛，你總是能找到靈感來創造獨一無�[...]',
         icon: '<i class="fas fa-tools"></i>',
         color: '#ff6b6b',
         image: 'https://raw.githubusercontent.com/kei4di1/Library-user-test/main/assets/maker.png'
@@ -443,9 +405,10 @@ function preloadImages() {
     });
 }
 
-// 修改後的初始化函數
-
 function restartQuiz() {
+    // 顯示 h1 和 progress bar
+    document.getElementById('quizTitle').style.display = 'block';
+    document.getElementById('progressBarContainer').style.display = 'block';
     init();
 }
 function init() {
@@ -468,6 +431,10 @@ function init() {
 
     // 隱藏結果
     document.getElementById('result').style.display = 'none';
+
+    // 顯示 h1 和 progress bar
+    document.getElementById('quizTitle').style.display = 'block';
+    document.getElementById('progressBarContainer').style.display = 'block';
 
     // 重置進度條
     updateProgress();
@@ -539,11 +506,10 @@ function showResult() {
         topRoles[Math.floor(Math.random() * topRoles.length)] :
         topRoles[0];
 
-    // 顯示結果
-    document.getElementById('roleIcon').innerHTML = roles[resultRole].icon;
-    document.getElementById('roleName').textContent = resultRole;
-    document.getElementById('roleName').style.color = roles[resultRole].color;
-    document.getElementById('roleDescription').textContent = roles[resultRole].description;
+    // 僅顯示結果圖片
+    document.getElementById('roleIcon').innerHTML = '';
+    document.getElementById('roleName').textContent = '';
+    document.getElementById('roleDescription').textContent = '';
 
     // 如果有圖片網址，則顯示圖片
     if (roles[resultRole].image) {
@@ -572,6 +538,10 @@ function showResult() {
 
     // 隱藏表單
     document.getElementById('quizForm').style.display = 'none';
+
+    // 隱藏 h1 和 progress bar
+    document.getElementById('quizTitle').style.display = 'none';
+    document.getElementById('progressBarContainer').style.display = 'none';
 }
 
 
