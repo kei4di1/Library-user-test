@@ -373,6 +373,7 @@ function preloadImages() {
     });
 }
 
+// 修改後的初始化函數
 function init() {
     // 重置所有變數
     currentQuestion = 0;
@@ -402,6 +403,7 @@ function init() {
         option.classList.remove('selected');
     });
 }
+
 
 // 更新進度條
 function updateProgress() {
@@ -499,36 +501,6 @@ function showResult() {
     document.getElementById('quizForm').style.display = 'none';
 }
 
-// 修改後的初始化函數
-function init() {
-    // 重置所有變數
-    currentQuestion = 0;
-    for (const role in roleScores) {
-        roleScores[role] = 0;
-    }
-
-    // 重置所有問題狀態
-    document.querySelectorAll('.question').forEach(question => {
-        question.style.display = 'none';
-    });
-
-    // 顯示第一個問題
-    document.getElementById(questions[0]).style.display = 'block';
-
-    // 顯示表單
-    document.getElementById('quizForm').style.display = 'block';
-
-    // 隱藏結果
-    document.getElementById('result').style.display = 'none';
-
-    // 重置進度條
-    updateProgress();
-
-    // 重置所有選項的選取狀態
-    document.querySelectorAll('.option').forEach(option => {
-        option.classList.remove('selected');
-    });
-}
 
 // 修改後的事件監聽器
 document.addEventListener('DOMContentLoaded', function() {
