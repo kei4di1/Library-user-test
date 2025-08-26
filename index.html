@@ -415,10 +415,11 @@ function updateProgress() {
 // 顯示下一個問題
 function showNextQuestion() {
     if (selectedAnswers[currentQuestion + 1]) {
+        // 計算角色分數
         const role = roleMap[currentQuestion + 1][selectedAnswers[currentQuestion + 1]];
         roleScores[role]++;
 
-        // 先隱藏所有題目
+        // 隱藏所有題目（這行是關鍵！）
         document.querySelectorAll('.question').forEach(question => {
             question.style.display = 'none';
         });
@@ -429,14 +430,14 @@ function showNextQuestion() {
             return;
         }
 
-        // 顯示下一題
+        // 顯示下一個問題
         currentQuestion++;
         document.getElementById(questions[currentQuestion]).style.display = 'block';
 
         // 更新進度條
         updateProgress();
 
-        // 重置選取狀態
+        // 重置選項選取狀態
         document.querySelectorAll(`.question[data-question="${currentQuestion + 1}"] .option`).forEach(opt => {
             opt.classList.remove('selected');
         });
