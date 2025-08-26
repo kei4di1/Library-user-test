@@ -414,35 +414,31 @@ function updateProgress() {
 
 // 顯示下一個問題
 function showNextQuestion() {
-    // 如果已經回答了當前問題
     if (selectedAnswers[currentQuestion + 1]) {
-        // 計算角色分數
         const role = roleMap[currentQuestion + 1][selectedAnswers[currentQuestion + 1]];
         roleScores[role]++;
 
-        // 如果是最後一個問題
+        // 隱藏所有題目，避免同時顯示
+        document.querySelectorAll('.question').forEach(question => {
+            question.style.display = 'none';
+        });
+
+        // 如果是最後一題，顯示結果
         if (currentQuestion === questions.length - 1) {
-            // 顯示結果
             showResult();
             return;
         }
 
-        // 隱藏當前問題
-        document.getElementById(questions[currentQuestion]).style.display = 'none';
-
-        // 顯示下一個問題
+        // 前進到下一題，顯示
         currentQuestion++;
         document.getElementById(questions[currentQuestion]).style.display = 'block';
-
-        // 更新進度條
         updateProgress();
 
-        // 重置選項選取狀態
+        // 重置選取狀態
         document.querySelectorAll(`.question[data-question="${currentQuestion + 1}"] .option`).forEach(opt => {
             opt.classList.remove('selected');
         });
     } else {
-        // 如果沒有選擇任何選項，顯示提示
         alert('請選擇一個答案才能繼續');
     }
 }
