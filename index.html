@@ -418,20 +418,22 @@ function showNextQuestion() {
         const role = roleMap[currentQuestion + 1][selectedAnswers[currentQuestion + 1]];
         roleScores[role]++;
 
-        // 隱藏所有題目，避免同時顯示
+        // 先隱藏所有題目
         document.querySelectorAll('.question').forEach(question => {
             question.style.display = 'none';
         });
 
-        // 如果是最後一題，顯示結果
+        // 如果是最後一個問題
         if (currentQuestion === questions.length - 1) {
             showResult();
             return;
         }
 
-        // 前進到下一題，顯示
+        // 顯示下一題
         currentQuestion++;
         document.getElementById(questions[currentQuestion]).style.display = 'block';
+
+        // 更新進度條
         updateProgress();
 
         // 重置選取狀態
