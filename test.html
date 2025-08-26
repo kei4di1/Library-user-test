@@ -262,7 +262,7 @@ const roles = {
         description: '你是圖書館創客空間的常客，喜歡動手做事和探索新技術。圖書館的創作工具和製作空間是你的最愛，你總是能找到靈感來創造獨一無二的作品。',
         icon: '<i class="fas fa-tools"></i>',
         color: '#ff6b6b',
-        image: 'https://raw.githubusercontent.com/kei4di1/Library-user-test/main/assets/maker.png' // 使用相對路徑或絕對URL
+        image: 'https://raw.githubusercontent.com/kei4di1/Library-user-test/main/assets/maker.png'
     },
     '書海探險家': {
         description: '你是一個熱愛閱讀和探索的人，書架上的新書和書海中的故事總是吸引著你的目光，在書本中尋找靈感和故事。',
@@ -534,7 +534,11 @@ document.addEventListener('DOMContentLoaded', function() {
     // 設定重新測驗按鈕事件
     document.getElementById('restartBtn').addEventListener('click', restartQuiz);
 
-    // 初始化測驗
+    function restartQuiz() {
+    // 清空選擇
+    for (let i = 1; i <= questions.length; i++) {
+        selectedAnswers[i] = undefined;
+    }
     init();
 });
 </script>
