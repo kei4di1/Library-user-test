@@ -508,16 +508,14 @@ document.addEventListener('DOMContentLoaded', function() {
     document.querySelectorAll('.option').forEach(option => {
         option.addEventListener('click', function() {
             const qNum = this.dataset.question;
+            // 只在當前題目才處理跳題
+            if (parseInt(qNum) - 1 !== currentQuestion) return;
             document.querySelectorAll(`.question[data-question="${qNum}"] .option`).forEach(opt => {
                 opt.classList.remove('selected');
             });
             this.classList.add('selected');
             selectedAnswers[qNum] = this.dataset.option;
-            if (currentQuestion < questions.length - 1) {
-                showNextQuestion();
-            } else {
-                showNextQuestion();
-            }
+            showNextQuestion();
         });
     });
 
