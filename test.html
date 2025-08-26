@@ -162,7 +162,7 @@
             margin: 0 auto 20px;
             border-radius: 8px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            border: 3px solid var(--primary);F
+            border: 3px solid var(--primary);
         }
     </style>
 
@@ -181,7 +181,7 @@
 
 <form id="quizForm">
     <!-- 問題 1 -->
-    <div class="question" id="q1">
+    <div class="question" id="q1" data-question="1">
         <p><i class="fas fa-question-circle"></i> 提到圖書館，你第一項想到的設施／服務是？</p>
         <div class="options">
             <div class="option" data-question="1" data-option="A">大幅面打印機</div>
@@ -192,7 +192,7 @@
     </div>
 
     <!-- 問題 2 -->
-    <div class="question" id="q2" style="display: none;">
+    <div class="question" id="q2" data-question="2">
         <p><i class="fas fa-question-circle"></i> 又到學期中了，圖書館可以如何協助我渡過呢？</p>
         <div class="options">
             <div class="option" data-question="2" data-option="A">提供安靜的空間讓我專心備課或溫習</div>
@@ -203,7 +203,7 @@
     </div>
 
     <!-- 問題 3 -->
-    <div class="question" id="q3" style="display: none;">
+    <div class="question" id="q3" data-question="3">
         <p><i class="fas fa-question-circle"></i> 當我想提升自己時，我會依靠圖書館的＿＿＿＿＿</p>
         <div class="options">
             <div class="option" data-question="3" data-option="A">工作坊與講座，幫助我學習新技能</div>
@@ -214,7 +214,7 @@
     </div>
 
     <!-- 問題 4 -->
-    <div class="question" id="q4" style="display: none;">
+    <div class="question" id="q4" data-question="4">
         <p><i class="fas fa-question-circle"></i> 當我需要靈感或放鬆一下時，我會＿＿＿＿＿</p>
         <div class="options">
             <div class="option" data-question="4" data-option="A">逛逛書架，看看有沒有新書吸引我</div>
@@ -225,7 +225,7 @@
     </div>
 
     <!-- 問題 5 -->
-    <div class="question" id="q5" style="display: none;">
+    <div class="question" id="q5" data-question="5">
         <p><i class="fas fa-question-circle"></i> 我最喜歡圖書館的＿＿＿＿＿</p>
         <div class="options">
             <div class="option" data-question="5" data-option="A">創作工具和製作空間</div>
@@ -236,7 +236,7 @@
     </div>
 
     <!-- 問題 6 -->
-    <div class="question" id="q6" style="display: none;">
+    <div class="question" id="q6" data-question="6">
         <p><i class="fas fa-question-circle"></i> 如果要在圖書館冒險，我的任務是＿＿＿＿＿</p>
         <div class="options">
             <div class="option" data-question="6" data-option="A">找出最隱藏的資料庫寶藏</div>
@@ -248,7 +248,7 @@
 </form>
 
 <div class="result" id="result">
-    <div class="role-image" id="roleImage"></div>
+    <img class="role-image" id="roleImage" style="display:none;" />
     <div class="role-icon" id="roleIcon"></div>
     <div class="role-name" id="roleName"></div>
     <div class="role-description" id="roleDescription"></div>
