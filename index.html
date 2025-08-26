@@ -24,16 +24,22 @@
         *, *:before, *:after {
             box-sizing: inherit;
         }
-        body {
-            font-family: 'Microsoft JhengHei', sans-serif;
-            line-height: 1.6;
-            margin: 0;
-            padding: 0;
-            color: #333;
-            background: linear-gradient(135deg, #f5f7fa 0%, #e0f7fa 100%);
-            position: relative;
-            min-height: 100vh;
-        }
+    body {
+        font-family: 'Microsoft JhengHei', sans-serif;
+        line-height: 1.6;
+        margin: 0;
+        padding: 0;
+        color: #333;
+        /* Example with both gradient and image */
+        background:
+            linear-gradient(135deg, #f5f7fa 0%, #e0f7fa 100%),
+            url('https://raw.githubusercontent.com/kei4di1/Library-user-test/main/assets/background.png');
+        background-size: cover;       /* Ensures the image covers the whole area */
+        background-position: center;  /* Centers the image */
+        background-repeat: no-repeat; /* No repeat */
+        position: relative;
+        min-height: 100vh;
+    }
         .container {
             max-width: 800px;
             width: 100%;
