@@ -6,15 +6,18 @@
     <title>你是甚麼圖書館角色？</title>
     <style>
         :root {
-            --sky-blue: #48dbfb;
-            --sun-yellow: #f4d03f;
-            --coral-red: #ff6b6b;
-            --light-gray: #f8f9fa;
-            --soft-white: #ffffff;
-            --soft-shadow: rgba(0, 0, 0, 0.05);
-            --primary: #48dbfb;
-            --secondary: #1dd1a1;
-            --accent: #ff6b6b;
+            --gray-100: #f7f7f7;
+            --gray-200: #ededed;
+            --gray-300: #d6d6d6;
+            --gray-400: #b0b0b0;
+            --gray-500: #888888;
+            --gray-600: #555555;
+            --gray-700: #333333;
+            --gray-800: #1a1a1a;
+            --gray-900: #111111;
+            --primary: var(--gray-700);
+            --secondary: var(--gray-400);
+            --accent: var(--gray-600);
         }
 
         html {
@@ -29,12 +32,8 @@
         line-height: 1.6;
         margin: 0;
         padding: 0;
-        color: #333;
-        background:
-            url('https://raw.githubusercontent.com/kei4di1/Library-user-test/main/assets/background.png');
-        background-size: cover;       /* Ensures the image covers the whole area */
-        background-position: center;  /* Centers the image */
-        background-repeat: no-repeat; /* No repeat */
+        color: var(--gray-800);
+        background: var(--gray-100);
         position: relative;
         min-height: 100vh;
     }
@@ -45,29 +44,29 @@
             padding: 20px;
         }
         h1 {
-            color: #5d5d5d;
+            color: var(--gray-700);
             text-align: center;
             margin-bottom: 2rem;
             font-weight: 700;
-            text-shadow: 2px 2px 4px rgba(255, 107, 107, 0.3);
-            background: linear-gradient(90deg, var(--coral-red), var(--sun-yellow));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            font-size: 3rem;
+            text-shadow: none;
+            background: none;
+            -webkit-background-clip: initial;
+            -webkit-text-fill-color: initial;
+            font-size: 2.5rem;
         }
         .question {
-            background: linear-gradient(145deg, var(--soft-white), #f1f9ff);
+            background: var(--gray-100);
             border-radius: 12px;
             padding: 1.5rem;
             margin-bottom: 1.5rem;
-            box-shadow: 0 4px 8px var(--soft-shadow);
-            border: 2px solid #d4edff;
+            box-shadow: 0 2px 6px rgba(128, 128, 128, 0.07);
+            border: 1.5px solid var(--gray-300);
             transition: transform 0.3s, box-shadow 0.3s;
             display: none;
         }
         .question:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 6px 12px rgba(72, 219, 251, 0.15);
+            transform: translateY(-3px);
+            box-shadow: 0 4px 12px rgba(128, 128, 128, 0.12);
         }
         .options {
             margin-top: 1rem;
@@ -81,18 +80,19 @@
             border-radius: 8px;
             cursor: pointer;
             transition: all 0.3s;
-            border: 2px solid #d4edff;
-            background: linear-gradient(145deg, var(--light-gray), #f1f9ff);
+            border: 1.5px solid var(--gray-300);
+            background: var(--gray-200);
             font-size: 1rem;
             min-width: 0;
             word-break: break-word;
+            color: var(--gray-800);
         }
         .option:hover, .option.selected {
-            background: linear-gradient(145deg, var(--accent), #ff8e8e);
-            color: white;
-            opacity: 0.9; 
-            border-color: var(--accent);
-            transform: translateX(5px);
+            background: var(--gray-400);
+            color: var(--gray-900);
+            border-color: var(--gray-500);
+            transform: translateX(4px);
+            opacity: 1;
         }
         .progress {
             margin-bottom: 1.5rem;
@@ -100,7 +100,7 @@
         }
         .progress-bar {
             height: 12px;
-            background: linear-gradient(90deg, #e0f7fa, #b2ebf2);
+            background: var(--gray-200);
             border-radius: 6px;
             margin-top: 10px;
             overflow: hidden;
@@ -111,18 +111,18 @@
         }
         .progress-fill {
             height: 100%;
-            background: linear-gradient(90deg, var(--primary), #43a0ff);
+            background: var(--gray-500);
             width: 0%;
             transition: width 0.5s;
         }
         .result {
             display: none;
-            background: linear-gradient(135deg, #e8f5e9, #c8e6c9);
+            background: var(--gray-100);
             border-radius: 12px;
             padding: 2rem 1rem;
             margin: 2rem auto 0 auto;
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.05);
-            border-left: 5px solid var(--primary);
+            box-shadow: 0 2px 8px rgba(128, 128, 128, 0.07);
+            border-left: 5px solid var(--gray-600);
             max-width: 600px;
             width: 100%;
         }
@@ -131,18 +131,18 @@
             margin-bottom: 1rem;
             text-align: center;
             font-weight: 700;
-            color: var(--primary);
-            text-shadow: 2px 2px 4px rgba(72, 219, 251, 0.3);
+            color: var(--gray-700);
+            text-shadow: none;
         }
         .role-description {
             margin-bottom: 1.5rem;
             text-align: center;
             font-size: 1.125rem;
             line-height: 1.7;
-            color: #555;
+            color: var(--gray-600);
         }
         .restart-btn {
-            background: linear-gradient(90deg, var(--accent), #ff8e8e);
+            background: var(--gray-600);
             color: white;
             border: none;
             padding: 0.75rem 2rem;
@@ -150,9 +150,9 @@
             border-radius: 8px;
             cursor: pointer;
             margin-top: 1.5rem;
-            transition: all 0.3s;
+            transition: background 0.3s, transform 0.3s, box-shadow 0.3s;
             font-weight: 600;
-            box-shadow: 0 4px 8px rgba(255, 107, 107, 0.3);
+            box-shadow: 0 2px 8px rgba(128, 128, 128, 0.15);
             width: 100%;
             max-width: 300px;
             display: block;
@@ -160,15 +160,15 @@
             margin-right: auto;
         }
         .restart-btn:hover {
-            background: linear-gradient(90deg, #ff8e8e, var(--accent));
+            background: var(--gray-800);
             transform: translateY(-2px);
-            box-shadow: 0 6px 12px rgba(255, 107, 107, 0.4);
+            box-shadow: 0 4px 12px rgba(128, 128, 128, 0.18);
         }
         .role-icon {
             font-size: 2.5rem;
             margin-bottom: 1rem;
             text-align: center;
-            color: var(--primary);
+            color: var(--gray-600);
         }
         .role-image {
             width: 100%;
@@ -177,8 +177,8 @@
             object-fit: contain;
             margin: 0 auto 1.25rem auto;
             border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            border: 3px solid var(--primary);
+            box-shadow: 0 2px 8px rgba(128, 128, 128, 0.10);
+            border: 3px solid var(--gray-500);
             display: block;
         }
         form {
