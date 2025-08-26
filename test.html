@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>圖書館角色測驗</title>
+    <style>
+        :root {
+            --sky-blue: #48dbfb;
+            --sun-yellow: #f4d03f;
+            --coral-red: #ff6b6b;
+            --light-gray: #f8f9fa;
+            --soft-white: #ffffff;
+            --soft-shadow: rgba(0, 0, 0, 0.05);
+            --primary: #48dbfb;
+            --secondary: #1dd1a1;
+            --accent: #ff6b6b;
+        }
+
+        body {
+            font-family: 'Microsoft JhengHei', sans-serif;
+            line-height: 1.6;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            color: #333;
+            background: linear-gradient(135deg, #f5f7fa 0%, #e0f7fa 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        h1 {
+            color: var(--coral-red);
+            text-align: center;
+            margin-bottom: 30px;
+            font-weight: 700;
+            text-shadow: 2px 2px 4px rgba(255, 107, 107, 0.3);
+            background: linear-gradient(90deg, var(--coral-red), var(--sun-yellow));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .question {
+            background: linear-gradient(145deg, var(--soft-white), #f1f9ff);
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 8px var(--soft-shadow);
+            border: 2px solid #d4edff;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .question:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 12px rgba(72, 219, 251, 0.15);
+        }
+
+        .options {
+            margin-top: 20px;
+        }
+
+        .option {
+            margin: 12px 0;
+            padding: 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 2px solid #d4edff;
+            background: linear-gradient(145deg, var(--light-gray), #f1f9ff);
+        }
+
+        .option:hover {
+            background: linear-gradient(145deg, #f1f9ff, var(--light-gray));
+            transform: translateX(5px);
+        }
+
+        .option.selected {
+            background: linear-gradient(145deg, var(--accent), #ff8e8e);
+            color: white;
+            border-color: var(--accent);
+            transform: translateX(5px);
+        }
+
+        .progress {
+            margin-bottom: 25px;
+            text-align: center;
+        }
+
+        .progress-bar {
+            height: 12px;
+            background: linear-gradient(90deg, #e0f7fa, #b2ebf2);
+            border-radius: 6px;
+            margin-top: 10px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary), #43a0ff);
+            width: 0%;
+            transition: width 0.5s;
+        }
+
+        .result {
+            display: none;
+            background: linear-gradient(135deg, #e8f5e9, #c8e6c9);
+            border-radius: 12px;
+            padding: 30px;
+            margin-top: 30px;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.05);
+            border-left: 5px solid var(--primary);
+        }
+
+        .role-name {
+            font-size: 28px;
+            margin-bottom: 20px;
+            text-align: center;
+            font-weight: 700;
+            color: var(--primary);
+            text-shadow: 2px 2px 4px rgba(72, 219, 251, 0.3);
+        }
+
+        .role-description {
+            margin-bottom: 25px;
+            text-align: center;
+            font-size: 18px;
+            line-height: 1.7;
+            color: #555;
+        }
+
+        .restart-btn {
+            background: linear-gradient(90deg, var(--accent), #ff8e8e);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            font-size: 18px;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: all 0.3s;
+            font-weight: 600;
+            box-shadow: 0 4px 8px rgba(255, 107, 107, 0.3);
+        }
+
+        .restart-btn:hover {
+            background: linear-gradient(90deg, #ff8e8e, var(--accent));
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(255, 107, 107, 0.4);
+        }
+
+        .role-icon {
+            font-size: 48px;
+            margin-bottom: 20px;
+            text-align: center;
+            color: var(--primary);
+        }
+
+        .role-image {
+            width: 540px;
+            height: 675px;
+            object-fit: contain;
+            margin: 0 auto 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border: 3px solid var(--primary);F
+        }
+    </style>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+
+<h1><i class="fas fa-book-reader"></i> 圖書館角色測驗</h1>
+
+<div class="progress">
+    <div class="progress-bar">
+        <div class="progress-fill" id="progressFill"></div>
+    </div>
+    <p id="progressText">問題 1/6</p>
+</div>
+
+<form id="quizForm">
+    <!-- 問題 1 -->
+    <div class="question" id="q1">
+        <p><i class="fas fa-question-circle"></i> 提到圖書館，你第一項想到的設施／服務是？</p>
+        <div class="options">
+            <div class="option" data-question="1" data-option="A">大幅面打印機</div>
+            <div class="option" data-question="1" data-option="B">書架上的新書</div>
+            <div class="option" data-question="1" data-option="C">小組討論室</div>
+            <div class="option" data-question="1" data-option="D">舒適的座位</div>
+        </div>
+    </div>
+
+    <!-- 問題 2 -->
+    <div class="question" id="q2" style="display: none;">
+        <p><i class="fas fa-question-circle"></i> 又到學期中了，圖書館可以如何協助我渡過呢？</p>
+        <div class="options">
+            <div class="option" data-question="2" data-option="A">提供安靜的空間讓我專心備課或溫習</div>
+            <div class="option" data-question="2" data-option="B">舉辦工作坊幫我提升技能或減壓</div>
+            <div class="option" data-question="2" data-option="C">有齊電子資源和資料庫，幫我完成報告</div>
+            <div class="option" data-question="2" data-option="D">討論室讓我和同學一起準備小組報告</div>
+        </div>
+    </div>
+
+    <!-- 問題 3 -->
+    <div class="question" id="q3" style="display: none;">
+        <p><i class="fas fa-question-circle"></i> 當我想提升自己時，我會依靠圖書館的＿＿＿＿＿</p>
+        <div class="options">
+            <div class="option" data-question="3" data-option="A">工作坊與講座，幫助我學習新技能</div>
+            <div class="option" data-question="3" data-option="B">電子資源與資料庫，支援我的研究與報告</div>
+            <div class="option" data-question="3" data-option="C">安靜空間，讓我專注思考與自我整理</div>
+            <div class="option" data-question="3" data-option="D">討論區與同儕交流，激發更多想法</div>
+        </div>
+    </div>
+
+    <!-- 問題 4 -->
+    <div class="question" id="q4" style="display: none;">
+        <p><i class="fas fa-question-circle"></i> 當我需要靈感或放鬆一下時，我會＿＿＿＿＿</p>
+        <div class="options">
+            <div class="option" data-question="4" data-option="A">逛逛書架，看看有沒有新書吸引我</div>
+            <div class="option" data-question="4" data-option="B">查找資料庫或電子資源</div>
+            <div class="option" data-question="4" data-option="C">動手做點東西，例如剪貼、設計或3D列印</div>
+            <div class="option" data-question="4" data-option="D">和朋友聊聊想法，激發新點子</div>
+        </div>
+    </div>
+
+    <!-- 問題 5 -->
+    <div class="question" id="q5" style="display: none;">
+        <p><i class="fas fa-question-circle"></i> 我最喜歡圖書館的＿＿＿＿＿</p>
+        <div class="options">
+            <div class="option" data-question="5" data-option="A">創作工具和製作空間</div>
+            <div class="option" data-question="5" data-option="B">書架和閱讀區</div>
+            <div class="option" data-question="5" data-option="C">活動和工作坊場地</div>
+            <div class="option" data-question="5" data-option="D">安靜的休息角落</div>
+        </div>
+    </div>
+
+    <!-- 問題 6 -->
+    <div class="question" id="q6" style="display: none;">
+        <p><i class="fas fa-question-circle"></i> 如果要在圖書館冒險，我的任務是＿＿＿＿＿</p>
+        <div class="options">
+            <div class="option" data-question="6" data-option="A">找出最隱藏的資料庫寶藏</div>
+            <div class="option" data-question="6" data-option="B">動手打造屬於自己的創意作品</div>
+            <div class="option" data-question="6" data-option="C">參加任務挑戰，解鎖新技能</div>
+            <div class="option" data-question="6" data-option="D">在書海中尋找靈感與故事</div>
+        </div>
+    </div>
+</form>
+
+<div class="result" id="result">
+    <div class="role-image" id="roleImage"></div>
+    <div class="role-icon" id="roleIcon"></div>
+    <div class="role-name" id="roleName"></div>
+    <div class="role-description" id="roleDescription"></div>
+    <button type="button" class="restart-btn" id="restartBtn">重新測驗</button>
+</div>
+
+<script>
+// 角色資訊
+const roles = {
+    '靈感工程師': {
+        description: '你是圖書館創客空間的常客，喜歡動手做事和探索新技術。圖書館的創作工具和製作空間是你的最愛，你總是能找到靈感來創造獨一無二的作品。',
+        icon: '<i class="fas fa-tools"></i>',
+        color: '#ff6b6b',
+        image: 'https://github.com/kei4di1/Library-user-test/raw/457084dbd3e22af7f0680901252fe84ec8917fd8/assets/maker.png' // 使用相對路徑或絕對URL
+    },
+    '書海探險家': {
+        description: '你是一個熱愛閱讀和探索的人，書架上的新書和書海中的故事總是吸引著你的目光，在書本中尋找靈感和故事。',
+        icon: '<i class="fas fa-book"></i>',
+        color: '#48dbfb',
+        image: 'https://github.com/kei4di1/Library-user-test/raw/457084dbd3e22af7f0680901252fe84ec8917fd8/assets/reader.png' // 使用相對路徑或絕對URL
+    },
+    '思辨夥伴': {
+        description: '你喜歡在討論區、學習小組或與朋友交流想法，圖書館是你激發思考與交換觀點的場域。',
+        icon: '<i class="fas fa-users"></i>',
+        color: '#1dd1a1',
+        image: 'https://raw.githubusercontent.com/kei4di1/Library-user-test/457084dbd3e22af7f0680901252fe84ec8917fd8/assets/buddy.png' // 使用相對路徑或絕對URL
+    },
+    '靜謐旅人': {
+        description: '你善用圖書館的空間，無論是自修、休憩或靈感發想，圖書館是你的心靈基地。',
+        icon: '<i class="fas fa-couch"></i>',
+        color: '#feb019',
+        image: 'https://github.com/kei4di1/Library-user-test/raw/457084dbd3e22af7f0680901252fe84ec8917fd8/assets/rester.png' // 使用相對路徑或絕對URL
+    },
+    '活動探索者': {
+        description: '你喜歡參與活動和學習新技能，圖書館的工作坊和講座是你的最愛。你總是能從活動中獲得新的知識和技能。',
+        icon: '<i class="fas fa-graduation-cap"></i>',
+        color: '#2d3436',
+        image: 'https://github.com/kei4di1/Library-user-test/raw/457084dbd3e22af7f0680901252fe84ec8917fd8/assets/participant.png' // 使用相對路徑或絕對URL
+    },
+    '知識獵人': {
+        description: '你擅長使用圖書館資料庫、電子資源和研究工具，總能找到最精準的資訊，是研究路上的高手。',
+        icon: '<i class="fas fa-search"></i>',
+        color: '#533483',
+        image: 'https://github.com/kei4di1/Library-user-test/raw/457084dbd3e22af7f0680901252fe84ec8917fd8/assets/searcher.png' // 使用相對路徑或絕對URL
+    }
+};
+
+// 角色對應表 - 完全按照您提供的對應關係
+const roleMap = {
+    '1': {
+        'A': '靈感工程師',
+        'B': '書海探險家',
+        'C': '思辨夥伴',
+        'D': '靜謐旅人'
+    },
+    '2': {
+        'A': '靜謐旅人',
+        'B': '活動探索者',
+        'C': '知識獵人',
+        'D': '思辨夥伴'
+    },
+    '3': {
+        'A': '活動探索者',
+        'B': '知識獵人',
+        'C': '靜謐旅人',
+        'D': '思辨夥伴'
+    },
+    '4': {
+        'A': '書海探險家',
+        'B': '知識獵人',
+        'C': '靈感工程師',
+        'D': '思辨夥伴'
+    },
+    '5': {
+        'A': '靈感工程師',
+        'B': '書海探險家',
+        'C': '活動探索者',
+        'D': '靜謐旅人'
+    },
+    '6': {
+        'A': '知識獵人',
+        'B': '靈感工程師',
+        'C': '活動探索者',
+        'D': '書海探險家'
+    }
+};
+
+// 當前問題索引
+let currentQuestion = 0;
+// 選擇的答案
+const selectedAnswers = {};
+// 角色計分
+const roleScores = {
+    '靈感工程師': 0,
+    '書海探險家': 0,
+    '思辨夥伴': 0,
+    '靜謐旅人': 0,
+    '活動探索者': 0,
+    '知識獵人': 0
+};
+
+// 所有問題元素
+const questions = ['q1', 'q2', 'q3', 'q4', 'q5', 'q6'];
+
+// 初始化
+
+function preloadImages() {
+    const images = [
+        'https://raw.githubusercontent.com/kei4di1/Library-user-test/457084dbd3e22af7f0680901252fe84ec8917fd8/assets/maker.png',
+        'https://raw.githubusercontent.com/kei4di1/Library-user-test/457084dbd3e22af7f0680901252fe84ec8917fd8/assets/reader.png',
+        'https://raw.githubusercontent.com/kei4di1/Library-user-test/457084dbd3e22af7f0680901252fe84ec8917fd8/assets/buddy.png',
+        'https://raw.githubusercontent.com/kei4di1/Library-user-test/457084dbd3e22af7f0680901252fe84ec8917fd8/assets/rester.png',
+        'https://raw.githubusercontent.com/kei4di1/Library-user-test/457084dbd3e22af7f0680901252fe84ec8917fd8/assets/participant.png',
+        'https://raw.githubusercontent.com/kei4di1/Library-user-test/457084dbd3e22af7f0680901252fe84ec8917fd8/assets/searcher.png'
+    ];
+
+    images.forEach(src => {
+        const img = new Image();
+        img.src = src;
+        img.style.display = 'none'; // 隱藏預加載的圖片
+        document.body.appendChild(img);
+    });
+}
+
+function init() {
+    // 重置所有變數
+    currentQuestion = 0;
+    for (const role in roleScores) {
+        roleScores[role] = 0;
+    }
+
+    // 重置所有問題狀態
+    document.querySelectorAll('.question').forEach(question => {
+        question.style.display = 'none';
+    });
+
+    // 顯示第一個問題
+    document.getElementById(questions[0]).style.display = 'block';
+
+    // 顯示表單
+    document.getElementById('quizForm').style.display = 'block';
+
+    // 隱藏結果
+    document.getElementById('result').style.display = 'none';
+
+    // 重置進度條
+    updateProgress();
+
+    // 重置所有選項的選取狀態
+    document.querySelectorAll('.option').forEach(option => {
+        option.classList.remove('selected');
+    });
+}
+
+// 更新進度條
+function updateProgress() {
+    const progress = ((currentQuestion + 1) / questions.length) * 100;
+    document.getElementById('progressFill').style.width = progress + '%';
+    document.getElementById('progressText').textContent = `問題 ${currentQuestion + 1}/${questions.length}`;
+}
+
+// 顯示下一個問題
+function showNextQuestion() {
+    // 如果已經回答了當前問題
+    if (selectedAnswers[currentQuestion + 1]) {
+        // 計算角色分數
+        const role = roleMap[currentQuestion + 1][selectedAnswers[currentQuestion + 1]];
+        roleScores[role]++;
+
+        // 如果是最後一個問題
+        if (currentQuestion === questions.length - 1) {
+            // 顯示結果
+            showResult();
+            return;
+        }
+
+        // 隱藏當前問題
+        document.getElementById(questions[currentQuestion]).style.display = 'none';
+
+        // 顯示下一個問題
+        currentQuestion++;
+        document.getElementById(questions[currentQuestion]).style.display = 'block';
+
+        // 更新進度條
+        updateProgress();
+
+        // 重置選項選取狀態
+        document.querySelectorAll(`.question[data-question="${currentQuestion + 1}"] .option`).forEach(opt => {
+            opt.classList.remove('selected');
+        });
+    } else {
+        // 如果沒有選擇任何選項，顯示提示
+        alert('請選擇一個答案才能繼續');
+    }
+}
+
+function showResult() {
+    // 找出分數最高的角色
+    let maxScore = 0;
+    let topRoles = [];
+
+    for (const role in roleScores) {
+        if (roleScores[role] > maxScore) {
+            maxScore = roleScores[role];
+            topRoles = [role];
+        } else if (roleScores[role] === maxScore) {
+            topRoles.push(role);
+        }
+    }
+
+    // 如果有多個角色分數相同，隨機選一個
+    const resultRole = topRoles.length > 1 ?
+        topRoles[Math.floor(Math.random() * topRoles.length)] :
+        topRoles[0];
+
+    // 顯示結果
+    document.getElementById('roleIcon').innerHTML = roles[resultRole].icon;
+    document.getElementById('roleName').textContent = resultRole;
+    document.getElementById('roleName').style.color = roles[resultRole].color;
+    document.getElementById('roleDescription').textContent = roles[resultRole].description;
+
+    // 如果有圖片網址，則顯示圖片
+    if (roles[resultRole].image) {
+        const img = document.getElementById('roleImage');
+        img.style.display = 'block';
+        img.src = roles[resultRole].image;
+        img.alt = resultRole + '角色圖片';
+
+        // 圖片加載成功時
+        img.onload = function() {
+            console.log('圖片加載成功:', roles[resultRole].image);
+        };
+
+        // 圖片加載失敗時
+        img.onerror = function() {
+            console.error('圖片加載失敗:', roles[resultRole].image);
+            img.style.display = 'none';
+            alert('角色圖片加載失敗，請檢查網路連接或重試');
+        };
+    } else {
+        document.getElementById('roleImage').style.display = 'none';
+    }
+
+    // 顯示結果面板
+    document.getElementById('result').style.display = 'block';
+
+    // 隱藏表單
+    document.getElementById('quizForm').style.display = 'none';
+}
+
+// 修改後的初始化函數
+function init() {
+    // 重置所有變數
+    currentQuestion = 0;
+    for (const role in roleScores) {
+        roleScores[role] = 0;
+    }
+
+    // 重置所有問題狀態
+    document.querySelectorAll('.question').forEach(question => {
+        question.style.display = 'none';
+    });
+
+    // 顯示第一個問題
+    document.getElementById(questions[0]).style.display = 'block';
+
+    // 顯示表單
+    document.getElementById('quizForm').style.display = 'block';
+
+    // 隱藏結果
+    document.getElementById('result').style.display = 'none';
+
+    // 重置進度條
+    updateProgress();
+
+    // 重置所有選項的選取狀態
+    document.querySelectorAll('.option').forEach(option => {
+        option.classList.remove('selected');
+    });
+}
+
+// 修改後的事件監聽器
+document.addEventListener('DOMContentLoaded', function() {
+    // 圖片預加載
+    preloadImages();
+
+    // 設定選項點擊事件
+    document.querySelectorAll('.option').forEach(option => {
+        option.addEventListener('click', function() {
+            // 取消所有選項的選取
+            document.querySelectorAll(`.question[data-question="${currentQuestion + 1}"] .option`).forEach(opt => {
+                opt.classList.remove('selected');
+            });
+
+            // 選取當前選項
+            this.classList.add('selected');
+
+            // 記錄答案
+            selectedAnswers[currentQuestion + 1] = this.dataset.option;
+
+            // 如果不是最後一個問題，自動前進
+            if (currentQuestion < questions.length - 1) {
+                showNextQuestion();
+            } else {
+                // 如果是最後一個問題，直接顯示結果
+                showNextQuestion();
+            }
+        });
+    });
+
+    // 設定重新測驗按鈕事件
+    document.getElementById('restartBtn').addEventListener('click', restartQuiz);
+
+    // 初始化測驗
+    init();
+});
+</script>
+</body>
+</html>
