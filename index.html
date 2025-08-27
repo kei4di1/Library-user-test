@@ -4,241 +4,202 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>你是甚麼圖書館角色？</title>
-    <style>
-        :root {
-            --gray-100: #f7f7f7;
-            --gray-200: #ededed;
-            --gray-300: #d6d6d6;
-            --gray-400: #b0b0b0;
-            --gray-500: #888888;
-            --gray-600: #555555;
-            --gray-700: #333333;
-            --gray-800: #1a1a1a;
-            --gray-900: #111111;
-            --primary: var(--gray-700);
-            --secondary: var(--gray-400);
-            --accent: var(--gray-600);
-        }
+<style>
+    :root {
+        --background: #FDF6F0;      /* soft cream */
+        --primary-accent: #A3C9A8;  /* sage green */
+        --secondary-accent: #F7CACA;/* blush pink */
+        --text: #4A4A4A;            /* warm gray */
+        --button: #F4A261;          /* soft orange */
+        --button-hover: #e8883d;    /* slightly darker for hover */
+        --border-radius: 16px;
+        --box-shadow: 0 2px 8px rgba(244, 162, 97, 0.09); /* soft orange shadow */
+    }
 
+    html {
+        box-sizing: border-box;
+        font-size: 16px;
+    }
+    *, *:before, *:after {
+        box-sizing: inherit;
+    }
+    body {
+        font-family: 'Microsoft JhengHei', sans-serif;
+        line-height: 1.6;
+        margin: 0;
+        padding: 0;
+        color: var(--text);
+	background: url('https://raw.githubusercontent.com/kei4di1/Library-user-test/main/assets/background.png'),
+        var(--background);
+	background-size: cover;
+	background-position: center;
+	background-repeat: no-repeat;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+    }
+    .container {
+        max-width: 800px;
+        width: 90%;
+        margin: 0 auto;
+        padding: 0;
+        border-radius: var(--border-radius);
+    }
+    h1 {
+        color: var(--text);
+        text-align: center;
+        margin-bottom: 2rem;
+        font-weight: 700;
+        font-size: 3rem;
+    }
+    .question {
+        background: rgba(253, 246, 240, 0.8);	
+        border-radius: 25px;
+        padding: 2rem;
+        margin-bottom: 1rem;
+        box-shadow: var(--box-shadow);
+        transition: transform 0.3s, box-shadow 0.3s;
+        display: none;
+	font-size: 1.25rem;
+    }
+    .question:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 4px 12px rgba(244, 162, 97, 0.16);
+    }
+    .options {
+        margin-top: 1rem;
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+    }
+    .option {
+        margin: 0;
+        padding: 1rem;
+        border-radius: 10px;
+        cursor: pointer;
+        transition: all 0.3s;
+        background: var(--secondary-accent);
+        font-size: 1rem;
+        color: var(--text);
+    }
+    .option:hover, .option.selected {
+        background: var(--primary-accent);
+        color: #fff;
+        border-color: var(--button);
+        transform: translateX(4px);
+        opacity: 1;
+    }
+    .progress-bar {
+        height: 20px;
+        background: var(--background);
+        border-radius: 12px;
+        overflow: hidden;
+        width: 100%;
+        max-width: 600px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    .progress-fill {
+        height: 100%;
+        background: rgb(247, 161, 161);
+        width: 0%;
+        transition: width 0.5s;
+    }
+    .result {
+        display: none;
+        padding: 2rem 1rem;
+        margin: 2rem auto 0 auto;
+        max-width: 600px;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    .role-image {
+        width: 100%;
+        max-width: 480px;
+        height: auto;
+        object-fit: contain;
+        margin: 0 auto 1.25rem auto;
+        border-radius: 15px;
+        box-shadow: var(--text);
+        display: block;
+    }
+    .restart-btn {
+        margin-top: 2.5rem;
+        margin-bottom: 0.5rem;
+        padding: 0.8rem 2.5rem;
+        font-size: 1.25rem;
+        font-weight: 600;
+        border-radius: 30px;
+        border: none;
+        background: var(--button);
+        color: #fff;
+        box-shadow: 0 2px 12px rgba(244,162,97,0.16);
+        cursor: pointer;
+        transition: background 0.3s, transform 0.2s, box-shadow 0.2s;
+        align-self: center;
+        letter-spacing: 1px;
+        display: flex;
+        align-items: center;
+        gap: 0.7rem;
+    }
+    .restart-btn:hover, .restart-btn:focus {
+        background: var(--button-hover);
+        transform: translateY(-2px) scale(1.03);
+        box-shadow: 0 4px 18px rgba(244,162,97,0.20);
+        outline: none;
+    }
+    .restart-btn i {
+        font-size: 1.3rem;
+    }
+
+    /* Responsive styles */
+    @media (max-width: 600px) {
         html {
-            box-sizing: border-box;
-            font-size: 16px;
-        }
-        *, *:before, *:after {
-            box-sizing: inherit;
-        }
-        body {
-            font-family: 'Microsoft JhengHei', sans-serif;
-            line-height: 1.6;
-            margin: 0;
-            padding: 0;
-            color: var(--gray-800);
-            display: flex;
-            justify-content: center; /* Centers horizontally */
-            align-items: center; /* Centers vertically */
-            background:
-                url('https://raw.githubusercontent.com/kei4di1/Library-user-test/main/assets/background.png');
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-            position: relative;
-            min-height: 100vh;
+            font-size: 15px;
         }
         .container {
-            max-width: 800px;
-            width: 100%;
-            margin: 0 auto;
-            padding: 20px;
-            border-radius: 16px;
-        }
-        h1 {
-            color: var(--gray-700);
-            text-align: center;
-            margin-bottom: 2rem;
-            font-weight: 700;
-            text-shadow: none;
-            background: none;
-            -webkit-background-clip: initial;
-            -webkit-text-fill-color: initial;
-            font-size: 3.5rem;
+            padding: 8px;
         }
         .question {
-            background: var(--gray-100, 0.8);
-            border-radius: 12px;
-            padding: 1.5rem;
-            margin-bottom: 1.5rem;
-            box-shadow: 0 2px 6px rgba(128, 128, 128, 0.07);
-            border: 1.5px solid var(--gray-300);
-            transition: transform 0.3s, box-shadow 0.3s;
-            display: none;
-        }
-        .question:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 4px 12px rgba(128, 128, 128, 0.12);
-        }
-        .options {
-            margin-top: 1rem;
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-        }
-        .option {
-            margin: 0;
             padding: 1rem;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.3s;
-            border: 1.5px solid var(--gray-300);
-            background: var(--gray-200);
-            font-size: 1rem;
-            min-width: 0;
-            word-break: break-word;
-            color: var(--gray-800);
-        }
-        .option:hover, .option.selected {
-            background: var(--gray-400);
-            color: var(--gray-900);
-            border-color: var(--gray-500);
-            transform: translateX(4px);
-            opacity: 1;
-        }
-        .progress {
-            margin-bottom: 1.5rem;
-            text-align: center;
-        }
-        .progress-bar {
-            height: 20px;
-            background: var(--gray-200);
-            border-radius: 6px;
-            margin-top: 10px;
-            overflow: hidden;
-            width: 100%;
-            max-width: 600px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-        .progress-fill {
-            height: 100%;
-            background: var(--gray-500);
-            width: 0%;
-            transition: width 0.5s;
         }
         .result {
-            display: none;
-            background: var(--gray-100);
-            border-radius: 12px;
-            padding: 2rem 1rem;
-            margin: 2rem auto 0 auto;
-            box-shadow: 0 2px 8px rgba(128, 128, 128, 0.07);
-            border-left: 5px solid var(--gray-600);
-            max-width: 600px;
-            width: 100%;
-            /* Hide text content except image */
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-        .role-name,
-        .role-description,
-        .role-icon {
-            display: none !important;
+            padding: 1rem 0.5rem;
         }
         .role-image {
-            width: 100%;
-            max-width: 480px;
-            height: auto;
-            object-fit: contain;
-            margin: 0 auto 1.25rem auto;
-            border-radius: 8px;
-            box-shadow: 0 2px 8px rgba(128, 128, 128, 0.10);
-            border: 3px solid var(--gray-500);
-            display: block;
+            max-width: 90vw;
         }
-        form {
-            width: 100%;
-        }
-
-        /* Redesigned Restart Button */
-        .restart-btn {
-            margin-top: 2.5rem;
-            margin-bottom: 0.5rem;
-            padding: 0.8rem 2.5rem;
-            font-size: 1.25rem;
-            font-weight: 600;
-            border-radius: 30px;
-            border: none;
-            background: linear-gradient(90deg, var(--gray-500) 0%, var(--gray-700) 100%);
-            color: #fff;
-            box-shadow: 0 2px 12px rgba(128,128,128,0.16);
-            cursor: pointer;
-            transition: background 0.3s, transform 0.2s, box-shadow 0.2s;
-            align-self: center;
-            letter-spacing: 1px;
-            display: flex;
-            align-items: center;
-            gap: 0.7rem;
-        }
-        .restart-btn:hover, .restart-btn:focus {
-            background: linear-gradient(90deg, var(--gray-700) 0%, var(--gray-500) 100%);
-            transform: translateY(-2px) scale(1.03);
-            box-shadow: 0 4px 18px rgba(128,128,128,0.20);
-            outline: none;
-        }
-        .restart-btn i {
+        h1 {
             font-size: 1.3rem;
         }
-
-        /* Responsive styles */
-        @media (max-width: 600px) {
-            html {
-                font-size: 15px;
-            }
-            .container {
-                padding: 8px;
-            }
-            .question {
-                padding: 1rem;
-            }
-            .result {
-                padding: 1rem 0.5rem;
-            }
-            .role-image {
-                max-width: 90vw;
-            }
-            h1 {
-                font-size: 1.3rem;
-            }
-            .role-name {
-                font-size: 1.2rem;
-            }
-            .role-description {
-                font-size: 1rem;
-            }
-            .option {
-                font-size: 1rem;
-                padding: 0.75rem;
-            }
-            .restart-btn {
-                padding: 0.7rem 1.2rem;
-                font-size: 1rem;
-            }
+        .option {
+            font-size: 1rem;
+            padding: 0.75rem;
         }
-        @media (max-width: 400px) {
-            html {
-                font-size: 13px;
-            }
-            .container {
-                padding: 2px;
-            }
-            .role-image {
-                max-width: 100vw;
-            }
-            .restart-btn {
-                font-size: 0.95rem;
-                padding: 0.6rem 0.8rem;
-            }
+        .restart-btn {
+            padding: 0.7rem 1.2rem;
+            font-size: 1rem;
         }
-    </style>
+    }
+    @media (max-width: 400px) {
+        html {
+            font-size: 13px;
+        }
+        .container {
+            padding: 2px;
+        }
+        .role-image {
+            max-width: 100vw;
+        }
+        .restart-btn {
+            font-size: 0.95rem;
+            padding: 0.6rem 0.8rem;
+        }
+    }
+</style>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
@@ -250,13 +211,13 @@
     <div class="progress-bar">
         <div class="progress-fill" id="progressFill"></div>
     </div>
-    <p id="progressText">問題 1/6</p>
+    <p id="progressText" style="text-align: center;">問題 1/6</p>
 </div>
 
 <form id="quizForm">
     <!-- 問題 1 -->
     <div class="question" id="q1" data-question="1">
-        <p><i class="fas fa-question-circle"></i> 提到圖書館，你第一項想到的設施／服務是？</p>
+        <p><b>提到圖書館，你第一項想到的是……</b></p>
         <div class="options">
             <div class="option" data-question="1" data-option="A">大幅面打印機</div>
             <div class="option" data-question="1" data-option="B">書架上的新書</div>
@@ -267,7 +228,7 @@
 
     <!-- 問題 2 -->
     <div class="question" id="q2" data-question="2">
-        <p><i class="fas fa-question-circle"></i> 又到學期中了，圖書館可以如何協助我渡過呢？</p>
+        <p><b>又到學期中了，圖書館可以如何協助你渡過呢？</b></p>
         <div class="options">
             <div class="option" data-question="2" data-option="A">提供安靜的空間讓我專心備課或溫習</div>
             <div class="option" data-question="2" data-option="B">舉辦工作坊幫我提升技能或減壓</div>
@@ -278,7 +239,7 @@
 
     <!-- 問題 3 -->
     <div class="question" id="q3" data-question="3">
-        <p><i class="fas fa-question-circle"></i> 當我想提升自己時，我會依靠圖書館的＿＿＿＿＿</p>
+        <p><b>當你想提升自己時，你會依靠圖書館的……</b></p>
         <div class="options">
             <div class="option" data-question="3" data-option="A">工作坊與講座，幫助我學習新技能</div>
             <div class="option" data-question="3" data-option="B">電子資源與資料庫，支援我的研究與報告</div>
@@ -289,7 +250,7 @@
 
     <!-- 問題 4 -->
     <div class="question" id="q4" data-question="4">
-        <p><i class="fas fa-question-circle"></i> 當我需要靈感或放鬆一下時，我會＿＿＿＿＿</p>
+        <p><b>當你需要放鬆一下時，你會……</b></p>
         <div class="options">
             <div class="option" data-question="4" data-option="A">逛逛書架，看看有沒有新書吸引我</div>
             <div class="option" data-question="4" data-option="B">查找資料庫或電子資源</div>
@@ -300,7 +261,7 @@
 
     <!-- 問題 5 -->
     <div class="question" id="q5" data-question="5">
-        <p><i class="fas fa-question-circle"></i> 我最喜歡圖書館的＿＿＿＿＿</p>
+        <p><b>你最喜歡圖書館的……</b></p>
         <div class="options">
             <div class="option" data-question="5" data-option="A">創作工具和製作空間</div>
             <div class="option" data-question="5" data-option="B">書架和閱讀區</div>
@@ -311,7 +272,7 @@
 
     <!-- 問題 6 -->
     <div class="question" id="q6" data-question="6">
-        <p><i class="fas fa-question-circle"></i> 如果要在圖書館冒險，我的任務是＿＿＿＿＿</p>
+        <p><b>如果要在圖書館冒險，你的任務會是……</b></p>
         <div class="options">
             <div class="option" data-question="6" data-option="A">找出最隱藏的資料庫寶藏</div>
             <div class="option" data-question="6" data-option="B">動手打造屬於自己的創意作品</div>
@@ -321,19 +282,19 @@
     </div>
 </form>
 
-<div class="result" id="result">
+<div class="result" id="result" align="center">
     <img class="role-image" id="roleImage" style="display:none;" />
     <div class="role-icon" id="roleIcon"></div>
     <div class="role-name" id="roleName"></div>
     <div class="role-description" id="roleDescription"></div>
-    <button type="button" class="restart-btn" id="restartBtn">重新測驗</button>
+    <button type="button" class="restart-btn" id="restartBtn" >↻ 重新測驗</button>
 </div>
 
 <script>
 // 角色資訊
 const roles = {
     '靈感工程師': {
-        description: '你是圖書館創客空間的常客，喜歡動手做事和探索新技術。圖書館的創作工具和製作空間是你的最愛，你總是能找到靈感來創造獨一無�[...]',
+        description: '你是圖書館創客空間的常客，喜歡動手做事和探索新技術。圖書館的創作工具和製作空間是你的最愛，你總是能找到靈感來創造獨一無 [...]',
         icon: '<i class="fas fa-tools"></i>',
         color: '#ff6b6b',
         image: 'https://raw.githubusercontent.com/kei4di1/Library-user-test/main/assets/maker.png'
